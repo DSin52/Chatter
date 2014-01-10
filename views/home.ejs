@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatter Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+  </head>
+  <body>
+  <!-- NavBar Object -->
+  <nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"></button>
+      <a class="navbar-brand" href="#">Chatter</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="http://localhost:3000">About</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" id="login" method="POST" action="/login">
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email" id="user">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" id="pass">
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginButton">Log In</button>
+        <button type="submit" class="btn btn-info" data-toggle="modal" data-target="#forgotModal" id="forgotButton">Forgot Password</button>
+        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#createModal" id="createButton">Create Account</button>
+      </form>
+    </div>
+  </nav>
+  <!-- End NavBar Object -->
+
+  <!-- Carousel Object -->
+  <div class="container">
+    <div id="home-carousel-id" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="images/antennae.jpg" alt="foobar">
+          <div class="carousel-caption">
+            <p>test</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="/images/carina.jpg" alt="" />
+          <div class="carousel-caption">
+            <p>test</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="/images/echo.jpg" alt="" />
+          <div class="carousel-caption">
+            <p>test</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="/images/ngc5866.jpg" alt="" />
+          <div class="carousel-caption">
+            <p>test</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control left" href="#home-carousel-id" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="carousel-control right" href="#home-carousel-id" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+  <!-- End Carousel Object -->
+
+  <!-- Three columns of text below the carousel -->
+  <div class="row" id="row_headings">
+    <div class="col-lg-4">
+      <img class="img-circle" src="/images/android.png" alt="Generic placeholder image">
+      <h2>Heading</h2>
+      <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+      <img class="img-circle" src="/images/android.png" alt="Generic placeholder image">
+      <h2>Heading</h2>
+      <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+      <img class="img-circle" src="/images/android.png" alt="Generic placeholder image">
+      <h2>Heading</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div><!-- /.col-lg-4 -->
+  </div><!-- /.row -->
+  </div>
+  <!-- End Three Columns -->
+
+  <!-- Forgot Modal -->
+  <div class="modal fade" id="forgotModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Forgot Password</h4>
+        </div>
+        <div class="modal-body" id="modal-forgot">
+          <p id="forgot-text">Please Enter email address to reset your password</p>
+          <form class="navbar-form" id="forgot" method="POST" action="/forgot">
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email" id="forgotEmailAddress">
+            </div>
+            <button type="submit" class="btn btn-primary" id="forgotEmail">Send Email</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Forgot Modal -->
+
+  <!-- Create Modal -->
+  <div class="modal fade" id="createModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Enter Account Information</h4>
+        </div>
+        <div class="modal-body" id="modal-create">
+          <form class="form-horizontal" id="create" method="POST" action="/">
+            <div class="form-group">
+              <label for="createEmailAddress" class="col-lg-3 control-label">Email Address:</label>
+              <div class="col-lg-8">
+                <input type="email" class="form-control" placeholder="Enter Email" id="createEmailAddress">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="verifyEmailAddress" class="col-lg-3 control-label">Re-Enter Email:</label>
+              <div class="col-lg-8"> 
+                <input type="email" class="form-control" placeholder="Re-Enter Email" id="verifyEmailAddress">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="accountPassword" class="col-lg-3 control-label">Password:</label>
+              <div class="col-lg-8">
+                <input type="password" class="form-control" placeholder="Enter Password" id="createPassword">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="verifyAccountPassword" class="col-lg-3 control-label">Password:</label>
+              <div class="col-lg-8">
+                <input type="password" class="form-control" placeholder="Re-Enter Password" id="verifyPassword">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="fbAccountButton">Sign Up With Facebook</button>
+          <button type="submit" class="btn btn-success" id="createAccountButton">Create Account</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Create Modal -->
+  
+  <!-- Script References -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/home.js"></script>
+  <!-- End Script References -->
+
+  </body>
+</html>

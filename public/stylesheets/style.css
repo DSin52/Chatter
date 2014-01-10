@@ -1,0 +1,38 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #F2F2F2;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#row_headings {
+	text-align: center;
+	padding-top: 50px;
+}
+
+#forgot-text {
+	padding: 15px;
+}
+
+#modal-forgot {
+	text-align: center;
+}
+
+#modal-create {
+	text-align: center;
+}
+
+#create-formgroup {
+	padding: 15px;
+	width: 300px;
+}
+
+.carousel-inner {
+		height: 400px;
+}
+
+#loginButton {
+	padding-left: 15px;
+}
