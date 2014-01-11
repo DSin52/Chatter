@@ -1,7 +1,5 @@
 $(document).ready(function(){
-
 	
-
 	$("#loginButton").click(function(event) {
 
 		var username = $("#user").val();
