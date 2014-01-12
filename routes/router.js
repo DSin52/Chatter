@@ -18,10 +18,6 @@ function route(req, res, webpage, callback)
 	{
 		res.render("login");
 	}
-	else if (webpage === "forgot")
-	{
-
-	}
 	else
 	{
 		res.render("not_found");

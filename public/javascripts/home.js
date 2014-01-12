@@ -5,11 +5,20 @@ $(document).ready(function(){
 		var username = $("#user").val();
 		var password = $("#pass").val();
 
-		if (!username || !password)
-		{
+		if (!username || !password) {
 			event.preventDefault();
 			alert("Username and/or password is empty");
+			return;
 		}
+		event.preventDefault();
+		$.post("/validation", {Email: username, Password: password}, function (data) {
+			if (data.exists === false) {
+				alert("Account not recognized!");
+				return;
+			} else {
+				$("#login").submit();
+			}
+		});
 	});
 
 	$("#createAccountButton").click(function(event) {
@@ -29,8 +38,15 @@ $(document).ready(function(){
 		} else if (email.indexOf("@") === -1) {
 			alert("Enter a valid email address: Missing the '@' symbol!");
 		} else {
-			alert("Account created!");
-			$("#create").submit();
+			
+			$.post("/validation", {Email: email}, function (data) {
+				if (data.exists === true) {
+					alert("Email already exists!");
+				} else {
+					$("#create").submit();
+					alert("Account Created!");
+				}
+			});
 		}
 	});
 

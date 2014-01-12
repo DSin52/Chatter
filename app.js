@@ -17,6 +17,17 @@ app.use(express.logger("dev"));
 app.use(express.json());
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/validation", function (req, res, next) {
+	db.connectToDB(function (error, database) {
+		if (error) {
+			next(error);
+		}
+		else {
+			app.settings.db = database;
+			next();
+		}
+	});
+});
 app.use("/create", function (req, res, next) {
 	db.connectToDB(function (error, database) {
 		if (error) {
@@ -28,6 +39,7 @@ app.use("/create", function (req, res, next) {
 		}
 	});
 });
+
 
 // development only
 if ("development" == app.get("env")) {
@@ -58,11 +70,22 @@ app.post("/create", function (req, res) {
 
 	db.insertIntoDB(User, function(err) {
 		if (err) {
-			
+			res.send("" + err);
 		}
 		router.route(req, res, "home");
 	});
 	
+});
+
+app.post("/validation", function (req, res) {
+
+	db.checkExists(req.body, function(err, acct) {
+		if (err) {
+			res.send(500, {Error: "Something went wrong!"});
+			return;
+		}
+		res.json(200, acct);
+	});
 });
 
 app.listen(app.get("port"), function() {

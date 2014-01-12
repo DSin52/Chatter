@@ -47,5 +47,22 @@ function insertIntoDB(account, callback) {
 	});
 }
 
+function checkExists(account, callback) {
+	
+	mongoDB.findOne(account, function (err, acct) {
+
+		var verification = {
+			exists: false
+		};
+
+		if (acct) {
+			verification.exists = true;
+		}
+
+		callback(err, verification);
+	});
+}
+
 module.exports.connectToDB = connectToDB;
 module.exports.insertIntoDB = insertIntoDB;
+module.exports.checkExists = checkExists;
