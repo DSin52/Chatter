@@ -1,5 +1,9 @@
 $(document).ready(function(){
 	
+	function validate(acct, callback) {
+		$.post("/validation", acct, callback);
+	};
+
 	$("#loginButton").click(function(event) {
 
 		var username = $("#user").val();
@@ -10,8 +14,9 @@ $(document).ready(function(){
 			alert("Username and/or password is empty");
 			return;
 		}
+
 		event.preventDefault();
-		$.post("/validation", {Email: username, Password: password}, function (data) {
+		validate({"Email": username, "Password": password}, function (data) {
 			if (data.exists === false) {
 				alert("Account not recognized!");
 				return;
@@ -38,16 +43,37 @@ $(document).ready(function(){
 		} else if (email.indexOf("@") === -1) {
 			alert("Enter a valid email address: Missing the '@' symbol!");
 		} else {
-			
-			$.post("/validation", {Email: email}, function (data) {
+			validate({"Email": email}, function (data) {
 				if (data.exists === true) {
 					alert("Email already exists!");
 				} else {
-					$("#create").submit();
-					alert("Account Created!");
+					$.post("/create", {"Email": email, "Password": pass}, function (statusCode) {
+						alert("Account Created!");
+					});
 				}
 			});
 		}
+	});
+
+	$("#forgotEmail").click(function(event) {
+		
+		var email = $("#forgotEmailAddress").val();
+
+		//temporary fix
+		event.preventDefault();
+		
+		if (!email) {
+			alert("Please enter a valid email");
+			return;
+		}
+
+		validate({"Email": email}, function (data) {
+			if (data.exists === true) {
+				alert("Password change request has been sent to your email!");
+			} else {
+				alert("Account with this email doesn't exist!");
+			}
+		});
 	});
 
 	$('.carousel').carousel({

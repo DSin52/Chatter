@@ -58,10 +58,6 @@ app.post("/login", function (req, res) {
 	router.route(req, res, "login");
 });
 
-app.get("/forgot", function (req, res) {
-	router.route(req, res, "forgot");
-});
-
 app.post("/create", function (req, res) {
 	var User = {
 		Email: req.body.Email,
@@ -70,11 +66,12 @@ app.post("/create", function (req, res) {
 
 	db.insertIntoDB(User, function(err) {
 		if (err) {
-			res.send("" + err);
+			res.send(res.statusCode);
+			console.log(err);
 		}
 		router.route(req, res, "home");
 	});
-	
+	res.send(res.statusCode);
 });
 
 app.post("/validation", function (req, res) {
@@ -86,6 +83,10 @@ app.post("/validation", function (req, res) {
 		}
 		res.json(200, acct);
 	});
+});
+
+app.post("/forgot", function (req, res) {
+
 });
 
 app.listen(app.get("port"), function() {
