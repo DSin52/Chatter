@@ -58,6 +58,10 @@ app.post("/login", function (req, res) {
 	router.route(req, res, "login");
 });
 
+app.get("/login", function (req, res) {
+	router.route(req, res, "login");
+});
+
 app.post("/create", function (req, res) {
 	var User = {
 		Email: req.body.Email,
@@ -86,7 +90,9 @@ app.post("/validation", function (req, res) {
 });
 
 app.post("/forgot", function (req, res) {
-
+	db.sendPassword(req.body.Email, function (err) {
+		res.send(err);
+	});
 });
 
 app.listen(app.get("port"), function() {

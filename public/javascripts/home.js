@@ -49,6 +49,7 @@ $(document).ready(function(){
 				} else {
 					$.post("/create", {"Email": email, "Password": pass}, function (statusCode) {
 						alert("Account Created!");
+						$("#createModal").modal("toggle");
 					});
 				}
 			});
@@ -58,8 +59,6 @@ $(document).ready(function(){
 	$("#forgotEmail").click(function(event) {
 		
 		var email = $("#forgotEmailAddress").val();
-
-		//temporary fix
 		event.preventDefault();
 		
 		if (!email) {
@@ -69,7 +68,14 @@ $(document).ready(function(){
 
 		validate({"Email": email}, function (data) {
 			if (data.exists === true) {
-				alert("Password change request has been sent to your email!");
+				$.post("/forgot", {"Email": email}, function (err, response) {
+					if (err) {
+						alert("Error has occurred!");
+					} else {
+						alert("Password has been sent to " + email);
+						$("#forgotModal").modal("toggle");						
+					}
+				});
 			} else {
 				alert("Account with this email doesn't exist!");
 			}

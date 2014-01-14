@@ -1,7 +1,17 @@
 var MongoClient = require("mongodb").MongoClient;
 var Server = require("mongodb").Server;
 var Db = require("mongodb").Db;
+var mailer = require("nodemailer");
+
 var mongoDB = null;
+var smtpTransport = mailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "noderunner52@gmail.com",
+        pass: "noderunner"
+    }
+});
+
 
 function connectToDB(callback) {
 
@@ -63,6 +73,27 @@ function checkExists(account, callback) {
 	});
 }
 
+function sendPassword(account, callback) {
+	var emailQuery = {
+		"Email": account
+	};
+	mongoDB.findOne(emailQuery, function (err, acct) {
+		var password = acct.Password;
+
+		var mailOptions = {
+			"from": "Chatter <noderunner52@gmail.com>",
+			"to": account,
+			"subject": "Password Retrieval",
+			"text": "Hello Chatterhead, your password is " + password
+		};
+
+		smtpTransport.sendMail(mailOptions, function (err, response) {
+			callback(err);
+		});	
+	});
+}
+
 module.exports.connectToDB = connectToDB;
 module.exports.insertIntoDB = insertIntoDB;
 module.exports.checkExists = checkExists;
+module.exports.sendPassword = sendPassword;

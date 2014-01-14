@@ -36,3 +36,20 @@ a {
 #loginButton {
 	padding-left: 15px;
 }
+
+#chatPanel {
+	width: 500px; 
+	height: 500px; 
+}
+
+#chat_message {
+	bottom: 20px;
+	position: absolute;
+}
+
+#messages {
+	overflow-y: auto;
+	word-wrap: normal;
+	position: absolute;
+	bottom: 60px;
+}
