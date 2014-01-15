@@ -11,9 +11,10 @@
 
     <div class="container">
       <div id="chatPanel" class="ui-widget-content">
+          <h3 id="chat_title">Chat</h3>
           <div id="messages">
           </div>
-          <input type="text" class="form-control" id="chat_message" placeholder="Enter message here">
+          <textarea class="form-control" id="chat_message" placeholder="Enter message here"></textarea>
       </div>
     </div>
 
@@ -22,7 +23,9 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/javascripts/login.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
 
   <!-- End Script References -->
 

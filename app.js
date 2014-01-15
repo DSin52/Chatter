@@ -7,6 +7,7 @@ var express = require("express");
 var path = require("path");
 var router = require("./routes/router.js");
 var db = require("./routes/controllers/database.js");
+// var io = require("socket.io");
 var app = express();
 
 // all environments
@@ -95,6 +96,22 @@ app.post("/forgot", function (req, res) {
 	});
 });
 
-app.listen(app.get("port"), function() {
-	console.log("Server is listening at port: " + app.get("port"));
+var io = require("socket.io").listen(app.listen(app.get("port"), function () {
+	console.log("Server is listening to port: " + app.get("port"));
+	}
+));
+
+io.sockets.on("connection", function (socket) {
+	
+	socket.emit("handshake", {
+		"connected": "yes"
+	});
+	
+	socket.on("message_sent", function (data) {
+		console.log("Data received is: " + data.username);
+		io.sockets.emit("message", {
+			"username": data.username,
+			"message": data.message
+		});
+	});
 });

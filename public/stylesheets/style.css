@@ -39,17 +39,30 @@ a {
 
 #chatPanel {
 	width: 500px; 
-	height: 500px; 
+	height: 500px; 	
 }
 
 #chat_message {
 	bottom: 20px;
 	position: absolute;
+    word-wrap: break-word;
+    resize: none;
 }
 
 #messages {
-	overflow-y: auto;
-	word-wrap: normal;
-	position: absolute;
-	bottom: 60px;
+	overflow-y: hidden;
+	overflow-y: scroll;
+	word-wrap: break-word;
+}
+
+#message {
+	padding: 10px;
+	word-wrap: break-word;
+	background-color: #F2F2F2;
+	width: 100%;
+}
+
+#chat_title {
+	background-color: #F2F2F2;
+	text-align: center;
 }
