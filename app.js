@@ -104,6 +104,7 @@ app.post("/login", function(req, res, next) {
 
 app.get("/login", function (req, res) {
 	console.log("REq " + req);
+	// TODO: Have to figure out a way to store cookies and recognize that session is still logged in
 	//router.route(req, res, "login", {"Email": req.});
 });
 
