@@ -23,6 +23,14 @@ $(document).ready(function(){
 		}
 	});
 
+	socket.on("handshake", function (data) {
+		$("#numUsers").text("Number of Users Online: " + data.numUsers)
+	});
+
+	socket.on("bye", function (data) {
+		$("#numUsers").text("Number of Users Online: " + data.numUsers)
+	});
+
 	socket.on("message", function (data) {
 		var user = data.username;
 		var message = data.message;

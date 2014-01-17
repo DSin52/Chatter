@@ -9,6 +9,7 @@ var db = require("./routes/controllers/database.js");
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var app = express();
+var numUsers = -1;
 
 // all environments
 app.set("port", process.env.PORT || 3000);
@@ -85,7 +86,7 @@ app.get("/create", function (req, res) {
 });
 
 app.post("/login", function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
+  passport.authenticate("local", {"session": true}, function(err, user, info) {
     if (err) { 
     	return next(err);
     }
@@ -102,7 +103,8 @@ app.post("/login", function(req, res, next) {
 });
 
 app.get("/login", function (req, res) {
-	router.route(req, res, "login", {"Email": email});
+	console.log("REq " + req);
+	//router.route(req, res, "login", {"Email": req.});
 });
 
 app.post("/create", function (req, res) {
@@ -137,21 +139,34 @@ app.post("/forgot", function (req, res) {
 	});
 });
 
+app.post("/logout", function (req, res) {
+	req.logOut();
+	res.redirect("/");
+});
+
 var io = require("socket.io").listen(app.listen(app.get("port"), function () {
 	console.log("Server is listening to port: " + app.get("port"));
 	}
 ));
 
 io.sockets.on("connection", function (socket) {
-	
-	socket.emit("handshake", {
-		"connected": "yes"
+	numUsers++;
+
+	io.sockets.emit("handshake", {
+		"numUsers": numUsers
 	});
 	
 	socket.on("message_sent", function (data) {
 		io.sockets.emit("message", {
 			"username": data.username,
 			"message": data.message
+		});
+	});
+
+	socket.on("disconnect", function(data) {
+		numUsers--;
+		io.sockets.emit("bye", {
+			"numUsers": numUsers
 		});
 	});
 });

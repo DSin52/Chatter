@@ -9,14 +9,31 @@
   </head>
   <body>
     <p id="userId" class="hidden"><%= Email %></p>
+
+    <!-- NavBar Object -->
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header-logout" id="navbar-header-home">
+          <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <a class="navbar-brand" href="#">Chatter</a>
+      <form class="navbar-form" id="logOut" method="POST" action="/logout">
+        <button type="submit" class="btn btn-success" id="logOutButton">Log Out</button>
+      </form>
+      </div>
+      </div>
+    </nav>
+    <!-- End NavBar Object -->
+    
+    <!-- Chat -->
     <div class="container">
       <div id="chatPanel" class="ui-widget-content">
+          <p id="numUsers"></p>
           <h3 id="chat_title">Chat</h3>
           <div id="messages">
           </div>
           <textarea class="form-control" id="chat_message" placeholder="Enter message here"></textarea>
       </div>
     </div>
+    <!-- End Chat -->
 
   <!-- Script References -->
   <script src="https://code.jquery.com/jquery.js"></script>
