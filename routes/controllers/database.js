@@ -73,6 +73,12 @@ function checkExists(account, callback) {
 	});
 }
 
+function find(query, callback) {
+	mongoDB.findOne(query, function (err, acct) {
+		callback(err, acct);
+	});
+}
+
 function sendPassword(account, callback) {
 	var emailQuery = {
 		"Email": account
@@ -97,3 +103,4 @@ module.exports.connectToDB = connectToDB;
 module.exports.insertIntoDB = insertIntoDB;
 module.exports.checkExists = checkExists;
 module.exports.sendPassword = sendPassword;
+module.exports.find = find;

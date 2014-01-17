@@ -10,6 +10,9 @@
     "ejs": "*",
     "mongodb": "*",
     "nodemailer": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "passport": "*",
+    "passport-local": "*",
+    "connect-flash": "*"
   }
 }

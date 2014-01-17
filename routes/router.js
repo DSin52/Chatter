@@ -3,7 +3,7 @@
 */
 
 
-function route(req, res, webpage, callback)
+function route(req, res, webpage, options, callback)
 {
 	if (webpage == null)
 	{
@@ -12,11 +12,11 @@ function route(req, res, webpage, callback)
 	
 	if (webpage === "home")
 	{
-		res.render("home");
+		res.render("home", options);
 	}
 	else if (webpage === "login")
 	{
-		res.render("login");
+		res.render("login", options);
 	}
 	else
 	{

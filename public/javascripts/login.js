@@ -5,7 +5,7 @@ $(document).ready(function(){
 	var textHeight = $("#chat_message").height();
 	var socket = io.connect("http://localhost:3000");
 	var scrollAmount = $("#messages").height();
-
+	var userId = $("#userId").text();
 	socket.on("connected", function (data) {
 		alert("data received");
 	});
@@ -16,7 +16,7 @@ $(document).ready(function(){
 			e.preventDefault();
 			var message = $("#chat_message").val();
 			socket.emit("message_sent", {
-			   	"username": "test",
+				"username": userId,
 			   	"message": message
 		    });
 		   	$("#chat_message").val("");
