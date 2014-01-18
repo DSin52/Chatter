@@ -9,7 +9,7 @@ var db = require("./routes/controllers/database.js");
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var app = express();
-var numUsers = -1;
+var numUsers = 0;
 
 // all environments
 app.set("port", process.env.PORT || 3000);
@@ -17,6 +17,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.logger("dev"));
 app.use(express.json());
+app.use(express.cookieParser("test"));
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
@@ -97,15 +98,19 @@ app.post("/login", function(req, res, next) {
       if (err) { 
       	return next(err); 
       }
+      var minute = 50000;
+      res.cookie("loggedIn", {"Email": user.Email}, {"maxAge": minute});
       return router.route(req, res, "login", {"Email": user.Email});
     });
   })(req, res, next);
 });
 
 app.get("/login", function (req, res) {
-	console.log("REq " + req);
-	// TODO: Have to figure out a way to store cookies and recognize that session is still logged in
-	//router.route(req, res, "login", {"Email": req.});
+	if (req.cookies.loggedIn) {
+		return router.route(req, res, "login", {"Email": req.cookies.loggedIn.Email});
+	} else {
+		return res.redirect("/");
+	}
 });
 
 app.post("/create", function (req, res) {
@@ -142,6 +147,7 @@ app.post("/forgot", function (req, res) {
 
 app.post("/logout", function (req, res) {
 	req.logOut();
+	res.clearCookie("loggedIn");
 	res.redirect("/");
 });
 
