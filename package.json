@@ -13,6 +13,8 @@
     "socket.io": "*",
     "passport": "*",
     "passport-local": "*",
-    "connect-flash": "*"
+    "connect-flash": "*",
+    "bcrypt": "*",
+    "async": "*"
   }
 }

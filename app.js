@@ -8,8 +8,15 @@ var router = require("./routes/router.js");
 var db = require("./routes/controllers/database.js");
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
+var crypto = require("crypto");
+var fs = require("fs");
 var app = express();
+
 var numUsers = 0;
+var options = {
+	"key": fs.readFileSync("privatekey.pem"),
+	"cert": fs.readFileSync("certificate.pem")
+};
 
 // all environments
 app.set("port", process.env.PORT || 3000);
@@ -130,7 +137,7 @@ app.post("/create", function (req, res) {
 });
 
 app.post("/validation", function (req, res) {
-	db.checkExists(req.body, function(err, acct) {
+	db.checkExists({"Email": req.body.Email}, function(err, acct) {
                 if (err) {
                         res.send(500, {Error: "Something went wrong!"});
                         return;

@@ -1,7 +1,9 @@
 var MongoClient = require("mongodb").MongoClient;
 var Server = require("mongodb").Server;
 var Db = require("mongodb").Db;
+var bcrypt = require("bcrypt");
 var mailer = require("nodemailer");
+var async = require("async");
 
 var mongoDB = null;
 var smtpTransport = mailer.createTransport("SMTP",{
@@ -39,22 +41,41 @@ function closeDB(callback) {
 	mongoDB = null;
 }
 
-function insertIntoDB(account, callback) {
+function insertIntoDB(account, done) {
 
-	mongoDB.findOne({Email: account.Email}, function (err, acct) {
-		if (acct) {
-			callback(new Error("Email already exists"));
-			return;
+	async.waterfall([
+		function (callback) {
+			mongoDB.findOne({Email: account.Email}, callback);
+		},
+		function (acct, callback) {
+			if (acct) {
+				callback(new Error("Email already exists!"));
+			} else {
+				callback();
+			}
+		},
+		function (callback) {
+			bcrypt.genSalt(3, callback);
+		},
+		function (salt, callback) {
+			bcrypt.hash(account.Password, salt, callback);
+		},
+		function (hashedPassword, callback) {
+			var userAccount = {
+				"Email": account.Email,
+				"Username": account.Username,
+				"Password": hashedPassword
+			};
+			mongoDB.insert(userAccount, callback);
 		}
-		else {
-			mongoDB.insert(account, function (err, docs) {
-				if (err) {
-					throw err;
-				}
-				callback(null);
-			});
-		}
-	});
+		],
+		function (err, results) {
+			if (err) {
+				return done(err);
+			} else {
+				done(null);
+			}
+		});
 }
 
 function checkExists(account, callback) {
@@ -74,9 +95,30 @@ function checkExists(account, callback) {
 }
 
 function find(query, callback) {
-	mongoDB.findOne(query, function (err, acct) {
-		callback(err, acct);
-	});
+	async.waterfall([
+		function (next) {
+			bcrypt.genSalt(3, next);
+		},
+		function (salt, next) {
+			bcrypt.hash(query.Password, salt, next);
+		},
+		function (hashedPassword, next) {
+			mongoDB.findOne({"Email": query.Email}, function (err, account) {
+				next(err, hashedPassword, account);
+			});
+		},
+		function (hashedPassword, account, next) {
+			if (!account) {
+				return callback(null, null);
+			} else {
+				bcrypt.compare(account.Password, hashedPassword, function (err, res) {
+					next(err, account, res);
+				});
+			}
+		}
+		], function (err, account, result) {
+				return callback(err, account);
+		});
 }
 
 function sendPassword(account, callback) {
