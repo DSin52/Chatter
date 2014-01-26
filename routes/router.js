@@ -7,7 +7,7 @@ function route(req, res, webpage, options, callback)
 {
 	if (webpage == null)
 	{
-		throw err;
+		throw new Error("Authentication Failed!");
 	}
 	
 	if (webpage === "home")

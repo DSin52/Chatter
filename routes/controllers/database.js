@@ -97,27 +97,20 @@ function checkExists(account, callback) {
 function find(query, callback) {
 	async.waterfall([
 		function (next) {
-			bcrypt.genSalt(3, next);
+			mongoDB.findOne({"Email": query.Email}, next);
 		},
-		function (salt, next) {
-			bcrypt.hash(query.Password, salt, next);
-		},
-		function (hashedPassword, next) {
-			mongoDB.findOne({"Email": query.Email}, function (err, account) {
-				next(err, hashedPassword, account);
+		function (account, next) {
+			bcrypt.compare(query.Password, account.Password, function (err, res) {
+				next(err, account, res);
 			});
-		},
-		function (hashedPassword, account, next) {
-			if (!account) {
-				return callback(null, null);
-			} else {
-				bcrypt.compare(account.Password, hashedPassword, function (err, res) {
-					next(err, account, res);
-				});
-			}
 		}
-		], function (err, account, result) {
-				return callback(err, account);
+		],
+		function (err, account, response) {
+			if (response) {
+				callback(err, account);
+			} else {
+				callback(err, null);
+			}
 		});
 }
 
