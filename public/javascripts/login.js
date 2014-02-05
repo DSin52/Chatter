@@ -10,6 +10,8 @@ $(document).ready(function(){
 		alert("data received");
 	});
 
+	initialize();
+
 	$("#messages").css("height", panelHeight - textHeight - 101 + "px");
 	$("#chat_message").keypress(function (e) {
 		if (e.which == 13) {
@@ -55,4 +57,24 @@ $(document).ready(function(){
 		var messageHeight = $("#chat_message").height();
 		$("#messages").css("height", amount - messageHeight - 101);
 	}
+
+	function initialize() {
+	  var mapOptions = {
+	    zoom: 15,
+	    center: new google.maps.LatLng(-34.397, 150.644)
+	  };
+
+	  var myLatlng = new google.maps.LatLng(-34.363882,150.044922);
+
+	  var map = new google.maps.Map(document.getElementById("map-canvas"),
+	      mapOptions);
+
+			  // To add the marker to the map, use the 'map' property
+		var marker = new google.maps.Marker({
+		    position: myLatlng,
+		    map: map,
+		    title:"Hello World!"
+		});
+	  }
+	 
 });

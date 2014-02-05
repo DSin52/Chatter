@@ -70,3 +70,9 @@ a {
 #logOutButton {
 	float: right;
 }
+
+#map-canvas {
+	height: 500px;
+	width: 500px;
+}
+

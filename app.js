@@ -105,7 +105,7 @@ app.post("/login", function(req, res, next) {
       if (err) { 
       	return next(err); 
       }
-      var minute = 50000;
+      var minute = 500000;
       res.cookie("loggedIn", {"Email": user.Email}, {"maxAge": minute});
       return router.route(req, res, "login", {"Email": user.Email});
     });
